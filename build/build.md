@@ -61,6 +61,7 @@ cd build
 mkdir vaapi_driver && cd vaapi_driver
 ../../thirdparty/intel-vaapi-driver/autogen.sh CFLAGS=-g CXXFLAGS=-g
 make -j4
+sudo make install
 ```
 
 
