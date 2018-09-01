@@ -1,5 +1,9 @@
 # Notes
 
+## references
+https://trac.ffmpeg.org/wiki/Hardware/VAAPI
+
+
 ## build ffmpeg example
 ```bash
 cd build/ffmpeg
