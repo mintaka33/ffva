@@ -23,7 +23,7 @@
                 "1",
                 "-vf",
                 "scale_vaapi=w=640:h=360,hwdownload,format=yuv420p",
-                "out.yuv"
+                "/tmp/out.yuv"
             ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
