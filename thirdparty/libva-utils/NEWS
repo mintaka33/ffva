@@ -1,0 +1,47 @@
+libva-utils NEWS -- summary of changes.  2018-07-xx
+Copyright (C) 2009-2018 Intel Corporation
+
+Version 2.2.0 - DD.Jul.2018
+* Bump version to 2.2.0
+* Add meson build
+* Add vainfo support in Android
+* Remove driver specific test cases
+
+Version 2.1.0 - 12.Feb.2018
+* Bump version to 2.1.0
+* Refine gtest conformance cases
+* vp9enc: add support low power mode
+* vavpp: add support for RGBA/RGBX surface
+* vainfo: add support new profile/entrypoint pairs
+
+Version 2.0.0 - 21.Oct.2017
+* Bump version to 2.0.0
+* Add option '--device <device>' to vainfo
+* Add vp9enc for VP9 encoding
+* Add vavpp for video processing
+* Add FEI gtest cases
+* Fix segmentation fault in putsurface_wayland
+* Fix GCC 7.1.1 warnings/errors
+* Fix libva version printed out by vainfo
+
+Version 1.8.3 - 28.Jun.2017
+* Bump version to 1.8.3
+* Switch AC_PROG_LIBTOOL to LT_INIT
+* putsurface: include wayland-client.h instead of wayland-server.h
+* avcenc: add AUD NAL unit at the beginning of pic
+* avcenc: enable direct_spatial_mv_pred_flag for B frame
+* avcenc: add the frame number as the command line input parameter
+
+Version 1.8.2 - 22.May.2017
+* Bump version to 1.8.2
+
+Version 1.8.1 - 10.Apr.2017
+* Bump version to 1.8.1
+
+Version 1.8.0 - 31.Mar.2017
+* First release of libva-utils as a separate project
+* Follows libva release versioning
+* Contains all the utilities and tests for libva API
+* dynamically links to libva
+* building system clean ups
+* test suite included using GoogleTestFramework
