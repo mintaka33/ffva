@@ -3,4 +3,16 @@ build/libva
 build/utils
 build/vaapi_driver
 
-
+Makefile.in
+thirdparty/libva-utils/autom4te.cache
+thirdparty/libva-utils/m4
+thirdparty/libva-utils/aclocal.m4
+thirdparty/libva-utils/compile
+thirdparty/libva-utils/config.guess
+thirdparty/libva-utils/config.h.in
+thirdparty/libva-utils/config.sub
+thirdparty/libva-utils/configure
+thirdparty/libva-utils/depcomp
+thirdparty/libva-utils/install-sh
+thirdparty/libva-utils/ltmain.sh
+thirdparty/libva-utils/missing
