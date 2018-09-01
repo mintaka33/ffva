@@ -42,7 +42,7 @@ openbox libx11-dev libgl1-mesa-glx libgl1-mesa-dev
 
 cd build
 mkdir libva && cd libva
-../../thirdparty/autogen.sh CFLAGS=-g CXXFLAGS=-g
+../../thirdparty/libva/autogen.sh CFLAGS=-g CXXFLAGS=-g
 make -j4
 sudo make install
 ```
@@ -51,7 +51,7 @@ sudo make install
 ```bash
 cd build
 mkdir utils && cd utils
-../../thirdparty/autogen.sh CFLAGS=-g CXXFLAGS=-g
+../../thirdparty/libva-utils/autogen.sh CFLAGS=-g CXXFLAGS=-g
 make -j4
 ```
 
@@ -59,7 +59,7 @@ make -j4
 ```bash
 cd build
 mkdir vaapi_driver && cd vaapi_driver
-../../thirdparty/autogen.sh CFLAGS=-g CXXFLAGS=-g
+../../thirdparty/intel-vaapi-driver/autogen.sh CFLAGS=-g CXXFLAGS=-g
 make -j4
 ```
 
