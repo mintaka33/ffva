@@ -70,3 +70,10 @@ export LD_LIBRARY_PATH=/usr/local/lib
 export LIBVA_DRIVER_NAME=i965
 export LIBVA_DRIVER_PATH=/usr/local/lib/dri
 ```
+
+# command line examples
+ffmpeg vaapi decode + vpp scaling
+```bash
+./ffmpeg -y -hwaccel vaapi -hwaccel_output_format vaapi -vaapi_device /dev/dri/renderD128 \
+-i ~/test.264 -vframes 1 -vf scale_vaapi=w=640:h=360,hwdownload,format=yuv420p /tmp/out.yuv
+```
