@@ -1,5 +1,10 @@
 # Notes
 
+## reference
+https://trac.ffmpeg.org/wiki/HWAccelIntro
+
+https://trac.ffmpeg.org/wiki/Hardware/VAAPI
+
 ## build ffmpeg example
 ```bash
 cd build/ffmpeg
