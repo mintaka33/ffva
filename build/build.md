@@ -29,7 +29,7 @@ cd build
 mkdir ffmpeg && cd ffmpeg
 ../../thirdparty/FFmpeg/configure --enable-debug=3 --disable-optimizations \
 --enable-libx264 --enable-libx265 --enable-gpl
-make -j4
+make -j$(nproc)
 # build ffmpeg examples 
 make examples
 ```
@@ -43,7 +43,7 @@ openbox libx11-dev libgl1-mesa-glx libgl1-mesa-dev
 cd build
 mkdir libva && cd libva
 ../../thirdparty/libva/autogen.sh CFLAGS=-g CXXFLAGS=-g
-make -j4
+make -j$(nproc)
 sudo make install
 ```
 
@@ -52,7 +52,7 @@ sudo make install
 cd build
 mkdir utils && cd utils
 ../../thirdparty/libva-utils/autogen.sh CFLAGS=-g CXXFLAGS=-g
-make -j4
+make -j$(nproc)
 ```
 
 ## build intel-vaapi-driver
@@ -60,8 +60,13 @@ make -j4
 cd build
 mkdir vaapi_driver && cd vaapi_driver
 ../../thirdparty/intel-vaapi-driver/autogen.sh CFLAGS=-g CXXFLAGS=-g
-make -j4
+make -j$(nproc)
 sudo make install
 ```
 
-
+# set environment variables
+```bash
+export LD_LIBRARY_PATH=/usr/local/lib
+export LIBVA_DRIVER_NAME=i965
+export LIBVA_DRIVER_PATH=/usr/local/lib/dri
+```
