@@ -50,6 +50,42 @@
                     "ignoreFailures": true
                 }
             ]
+        },
+        {
+            "name": "vaapi_transcode",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/ffmpeg/doc/examples/vaapi_transcode_g",
+            "args": [
+                "~/test.264",
+                "h264_vaapi",
+                "/tmp/out.264"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/usr/local/lib"
+                },
+                {
+                    "name": "LIBVA_DRIVER_NAME",
+                    "value": "i965"
+                },
+                {
+                    "name": "LIBVA_DRIVER_PATH",
+                    "value": "/usr/local/lib/dri"
+                },
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
         }
     ]
 }
