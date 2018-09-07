@@ -64,4 +64,10 @@ make -j4
 sudo make install
 ```
 
-
+## vadl
+```bash
+cd build
+mkdir bin && cd bin
+cmake ../../src
+make
+```
