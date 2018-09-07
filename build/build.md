@@ -68,6 +68,6 @@ sudo make install
 ```bash
 cd build
 mkdir bin && cd bin
-cmake ../../src
+cmake ../../src -DCMAKE_VERBOSE_MAKEFILE=ON
 make
 ```
