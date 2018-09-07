@@ -28,7 +28,7 @@ sudo apt install libx264-dev libx265-dev
 cd build
 mkdir ffmpeg && cd ffmpeg
 ../../thirdparty/FFmpeg/configure --enable-debug=3 --disable-optimizations \
---enable-libx264 --enable-libx265 --enable-gpl
+--enable-libx264 --enable-libx265 --enable-gpl --enable-static --disable-shared
 make -j4
 # build ffmpeg examples 
 make examples
