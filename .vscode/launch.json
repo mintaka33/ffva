@@ -12,7 +12,20 @@
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/usr/local/lib"
+                },
+                {
+                    "name": "LIBVA_DRIVER_NAME",
+                    "value": "i965"
+                },
+                {
+                    "name": "LIBVA_DRIVER_PATH",
+                    "value": "/usr/local/lib/dri"
+                },
+            ],
             "externalConsole": true,
             "MIMode": "gdb",
             "setupCommands": [
@@ -24,24 +37,13 @@
             ]
         },
         {
-            "name": "ffmpeg-dec-vpp",
+            "name": "hw_decode",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/ffmpeg/ffmpeg_g",
+            "program": "${workspaceFolder}/build/ffmpeg/doc/examples/hw_decode_g",
             "args": [
-                "-y",
-                "-hwaccel",
                 "vaapi",
-                "-hwaccel_output_format",
-                "vaapi",
-                "-vaapi_device",
-                "/dev/dri/renderD128",
-                "-i",
-                "~/test.264",
-                "-vframes",
-                "1",
-                "-vf",
-                "scale_vaapi=w=640:h=360,hwdownload,format=yuv420p",
+                "/tmp/test.264",
                 "/tmp/out.yuv"
             ],
             "stopAtEntry": true,
@@ -105,6 +107,53 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
+        {
+            "name": "ffmpeg-dec-vpp",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/ffmpeg/ffmpeg_g",
+            "args": [
+                "-y",
+                "-hwaccel",
+                "vaapi",
+                "-hwaccel_output_format",
+                "vaapi",
+                "-vaapi_device",
+                "/dev/dri/renderD128",
+                "-i",
+                "~/test.264",
+                "-vframes",
+                "1",
+                "-vf",
+                "scale_vaapi=w=640:h=360,hwdownload,format=yuv420p",
+                "/tmp/out.yuv"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/usr/local/lib"
+                },
+                {
+                    "name": "LIBVA_DRIVER_NAME",
+                    "value": "i965"
+                },
+                {
+                    "name": "LIBVA_DRIVER_PATH",
+                    "value": "/usr/local/lib/dri"
+                },
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
     ]
 }
