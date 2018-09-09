@@ -13,8 +13,8 @@ extern "C" {
 
 int main(int argc, char** argv)
 {
-    const char* hwtype = "h264_vaapi";
-    const char* infile = "/tmp/test.264";
+    const char* hwtype = "vaapi";
+    const char* infile = "~/test.264";
     AVFormatContext *input_ctx = nullptr;
     enum AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
 
@@ -22,11 +22,12 @@ int main(int argc, char** argv)
     if (type == AV_HWDEVICE_TYPE_NONE)
         return -1;
 
-    if (avformat_open_input(&input_ctx, infile, nullptr, nullptr) != 0) {
+    int ret =avformat_open_input(&input_ctx, infile, nullptr, nullptr);
+    if ( ret != 0) {
         fprintf(stderr, "Cannot open input file %s\n", infile);
         return -1;
     }
-
+    
     printf("va sample decoder\n");
     return 0;
 }
