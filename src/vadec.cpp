@@ -12,6 +12,7 @@ extern "C" {
 }
 
 static enum AVPixelFormat hw_pix_fmt;
+static     FILE *output_file = nullptr;
 
 static enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
 {
@@ -26,10 +27,83 @@ static enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelF
     return AV_PIX_FMT_NONE;
 }
 
+static int decode_write(AVCodecContext *avctx, AVPacket *packet)
+{
+    AVFrame *frame = nullptr, *sw_frame = nullptr;
+    AVFrame *tmp_frame = nullptr;
+    uint8_t *buffer = nullptr;
+    int size;
+    int ret = 0;
+
+    ret = avcodec_send_packet(avctx, packet);
+    if (ret < 0) {
+        fprintf(stderr, "Error during decoding\n");
+        return ret;
+    }
+
+    while (1) {
+        if (!(frame = av_frame_alloc()) || !(sw_frame = av_frame_alloc())) {
+            fprintf(stderr, "Can not alloc frame\n");
+            ret = AVERROR(ENOMEM);
+            goto fail;
+        }
+
+        ret = avcodec_receive_frame(avctx, frame);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            av_frame_free(&frame);
+            av_frame_free(&sw_frame);
+            return 0;
+        } else if (ret < 0) {
+            fprintf(stderr, "Error while decoding\n");
+            goto fail;
+        }
+
+        if (frame->format == hw_pix_fmt) {
+            /* retrieve data from GPU to CPU */
+            if ((ret = av_hwframe_transfer_data(sw_frame, frame, 0)) < 0) {
+                fprintf(stderr, "Error transferring the data to system memory\n");
+                goto fail;
+            }
+            tmp_frame = sw_frame;
+        } else
+            tmp_frame = frame;
+
+        size = av_image_get_buffer_size((AVPixelFormat)tmp_frame->format, tmp_frame->width,
+                                        tmp_frame->height, 1);
+        buffer = (uint8_t*)av_malloc(size);
+        if (!buffer) {
+            fprintf(stderr, "Can not alloc buffer\n");
+            ret = AVERROR(ENOMEM);
+            goto fail;
+        }
+        ret = av_image_copy_to_buffer(buffer, size,
+                                      (const uint8_t * const *)tmp_frame->data,
+                                      (const int *)tmp_frame->linesize, (AVPixelFormat)tmp_frame->format,
+                                      tmp_frame->width, tmp_frame->height, 1);
+        if (ret < 0) {
+            fprintf(stderr, "Can not copy image to buffer\n");
+            goto fail;
+        }
+
+        if ((ret = fwrite(buffer, 1, size, output_file)) < 0) {
+            fprintf(stderr, "Failed to dump raw data.\n");
+            goto fail;
+        }
+
+    fail:
+        av_frame_free(&frame);
+        av_frame_free(&sw_frame);
+        av_freep(&buffer);
+        if (ret < 0)
+            return ret;
+    }
+}
+
 int main(int argc, char** argv)
 {
     const char* hwtype = "vaapi";
     const char* infile = "/tmp/test.264";
+    const char* outfile = "/tmp/out.yuv";
     int video_stream = -1;
     AVBufferRef *hw_device_ctx = nullptr;
     AVFormatContext *input_ctx = nullptr;
@@ -37,7 +111,6 @@ int main(int argc, char** argv)
     AVStream *video = nullptr;
     AVCodec *decoder = nullptr;
     AVPacket packet = {};
-    FILE *output_file = nullptr;
     enum AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
     int ret = 0;
 
@@ -94,7 +167,29 @@ int main(int argc, char** argv)
         fprintf(stderr, "Failed to open codec for stream #%u\n", video_stream);
         return -1;
     }
-    
-    printf("va sample decoder\n");
+
+    output_file = fopen(outfile, "w+");
+
+    while (ret >= 0) {
+        if ((ret = av_read_frame(input_ctx, &packet)) < 0)
+            break;
+
+        if (video_stream == packet.stream_index)
+            ret = decode_write(decoder_ctx, &packet);
+
+        av_packet_unref(&packet);
+    }
+
+    packet.data = NULL;
+    packet.size = 0;
+    ret = decode_write(decoder_ctx, &packet);
+    av_packet_unref(&packet);
+    if (output_file)
+        fclose(output_file);
+    avcodec_free_context(&decoder_ctx);
+    avformat_close_input(&input_ctx);
+    av_buffer_unref(&hw_device_ctx);
+
+    printf("vadec done!\n");
     return 0;
 }
