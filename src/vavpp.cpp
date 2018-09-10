@@ -8,6 +8,6 @@ extern "C" {
 
 int main(int argc, char** argv)
 {
-    printf("va video processor\n");
+    printf("va processor done!\n");
     return 0;
 }

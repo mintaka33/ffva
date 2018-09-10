@@ -8,6 +8,6 @@ extern "C" {
 
 int main(int argc, char** argv)
 {
-    printf("va sample encoder\n");
+    printf("va encoder done!\n");
     return 0;
 }
