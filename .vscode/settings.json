@@ -2,6 +2,8 @@
     "git.ignoreLimitWarning": true,
     "files.associations": {
         "*.tcc": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "imgutils.h": "c",
+        "hwcontext.h": "c"
     }
 }
