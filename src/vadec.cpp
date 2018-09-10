@@ -101,9 +101,6 @@ static int decode_write(AVCodecContext *avctx, AVPacket *packet)
 
 int main(int argc, char** argv)
 {
-    const char* hwtype = "vaapi";
-    const char* infile = "../../test/test.264";
-    const char* outfile = "../../test/out.yuv";
     int video_stream = -1;
     AVBufferRef *hw_device_ctx = nullptr;
     AVFormatContext *input_ctx = nullptr;
@@ -113,6 +110,13 @@ int main(int argc, char** argv)
     AVPacket packet = {};
     enum AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
     int ret = 0;
+
+    if(argc != 4)
+        return -1;
+
+    const char* hwtype = argv[1];
+    const char* infile = argv[2];
+    const char* outfile = argv[3];
 
     type = av_hwdevice_find_type_by_name(hwtype);
     if (type == AV_HWDEVICE_TYPE_NONE)

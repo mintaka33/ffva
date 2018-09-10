@@ -9,7 +9,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/bin/vadec",
-            "args": [],
+            "args": [
+                "vaapi",
+                "${workspaceFolder}/test/test.264",
+                "${workspaceFolder}/test/out.yuv"
+            ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [
