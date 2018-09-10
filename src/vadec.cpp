@@ -102,8 +102,8 @@ static int decode_write(AVCodecContext *avctx, AVPacket *packet)
 int main(int argc, char** argv)
 {
     const char* hwtype = "vaapi";
-    const char* infile = "/tmp/test.264";
-    const char* outfile = "/tmp/out.yuv";
+    const char* infile = "../../test/test.264";
+    const char* outfile = "../../test/out.yuv";
     int video_stream = -1;
     AVBufferRef *hw_device_ctx = nullptr;
     AVFormatContext *input_ctx = nullptr;

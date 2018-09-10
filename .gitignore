@@ -4,6 +4,8 @@ build/libva
 build/utils
 build/vaapi_driver
 
+*.yuv
+
 Makefile.in
 thirdparty/libva-utils/autom4te.cache
 thirdparty/libva-utils/m4
