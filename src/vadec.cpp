@@ -11,6 +11,8 @@ extern "C" {
 #include <libavutil/imgutils.h>
 }
 
+#include "videoaccel.hpp"
+
 static enum AVPixelFormat hw_pix_fmt;
 static     FILE *output_file = nullptr;
 
@@ -101,6 +103,7 @@ static int decode_write(AVCodecContext *avctx, AVPacket *packet)
 
 int main(int argc, char** argv)
 {
+    VideoAccel va;
     int video_stream = -1;
     AVBufferRef *hw_device_ctx = nullptr;
     AVFormatContext *input_ctx = nullptr;
