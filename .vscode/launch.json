@@ -5,6 +5,40 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "test",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/test",
+            "args": [
+                "${workspaceFolder}/test/test.264"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/usr/local/lib"
+                },
+                {
+                    "name": "LIBVA_DRIVER_NAME",
+                    "value": "i965"
+                },
+                {
+                    "name": "LIBVA_DRIVER_PATH",
+                    "value": "/usr/local/lib/dri"
+                },
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "vadec",
             "type": "cppdbg",
             "request": "launch",

@@ -16,6 +16,8 @@ public:
     VideoAccel(const char* inf, const char* outf="out.yuv", const char* type="vaapi");
     ~VideoAccel();
 
+    int init();
+
 private:
     const char* vatype_;
     const char* infile_;
@@ -25,5 +27,6 @@ private:
     AVCodecContext *decoderCtx_ = nullptr;
     AVStream *video_ = nullptr;
     AVCodec *decoder_ = nullptr;
+    int stream_ = -1;
 };
 

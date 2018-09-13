@@ -20,4 +20,4 @@ add_executable(vavpp vavpp.cpp)
 target_link_libraries(vavpp ${FFMPEG_LIBS})
 
 add_executable(test test.cpp videoaccel.cpp videoaccel.hpp)
-target_link_libraries(vadec ${FFMPEG_LIBS})
+target_link_libraries(test ${FFMPEG_LIBS})
