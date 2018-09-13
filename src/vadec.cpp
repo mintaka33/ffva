@@ -103,7 +103,6 @@ static int decode_write(AVCodecContext *avctx, AVPacket *packet)
 
 int main(int argc, char** argv)
 {
-    VideoAccel va;
     int video_stream = -1;
     AVBufferRef *hw_device_ctx = nullptr;
     AVFormatContext *input_ctx = nullptr;

@@ -1,7 +1,10 @@
 #include "videoaccel.hpp"
 
 
-VideoAccel::VideoAccel()
+VideoAccel::VideoAccel(const char* inf, const char* outf, const char* type) :
+    infile_(inf),
+    outfile_(outf),
+    vatype_(type)
 {
 }
 

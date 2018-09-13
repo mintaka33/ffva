@@ -13,10 +13,13 @@ extern "C" {
 class VideoAccel
 {
 public:
-    VideoAccel();
+    VideoAccel(const char* inf, const char* outf="out.yuv", const char* type="vaapi");
     ~VideoAccel();
 
 private:
+    const char* vatype_;
+    const char* infile_;
+    const char* outfile_;
     AVBufferRef *hwDeviceCtx_ = nullptr;
     AVFormatContext *inputCtx_ = nullptr;
     AVCodecContext *decoderCtx_ = nullptr;
