@@ -11,8 +11,6 @@ extern "C" {
 #include <libavutil/imgutils.h>
 }
 
-#include "videoaccel.hpp"
-
 static enum AVPixelFormat hw_pix_fmt;
 static     FILE *output_file = nullptr;
 

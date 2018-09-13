@@ -10,7 +10,7 @@ link_directories(/usr/local/lib/)
 
 set (FFMPEG_LIBS avutil avformat avcodec avfilter avdevice)
 
-add_executable(vadec vadec.cpp videoaccel.cpp videoaccel.hpp)
+add_executable(vadec vadec.cpp)
 target_link_libraries(vadec ${FFMPEG_LIBS})
 
 add_executable(vaenc vaenc.cpp)
@@ -18,3 +18,6 @@ target_link_libraries(vaenc ${FFMPEG_LIBS})
 
 add_executable(vavpp vavpp.cpp)
 target_link_libraries(vavpp ${FFMPEG_LIBS})
+
+add_executable(test test.cpp videoaccel.cpp videoaccel.hpp)
+target_link_libraries(vadec ${FFMPEG_LIBS})
