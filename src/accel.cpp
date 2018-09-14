@@ -89,3 +89,8 @@ int VAccel::init()
 
     return 0;
 }
+
+int VAccel::getFrame()
+{
+    return 0;
+}

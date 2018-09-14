@@ -17,6 +17,7 @@ public:
     ~VAccel();
 
     int init();
+    int getFrame();
 
 private:
     const char* vatype_;
