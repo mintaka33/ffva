@@ -42,11 +42,11 @@
             "name": "vadec",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/vadec",
+            "program": "${workspaceFolder}/build/test/vadec",
             "args": [
                 "vaapi",
                 "${workspaceFolder}/test/test.264",
-                "${workspaceFolder}/test/out.yuv"
+                "${workspaceFolder}/build/test/out.yuv"
             ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
