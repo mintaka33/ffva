@@ -67,7 +67,13 @@ sudo make install
 ## vadl
 ```bash
 cd build
+# build vadl lib
 mkdir bin && cd bin
 cmake ../../src -DCMAKE_VERBOSE_MAKEFILE=ON
+make
+
+# build test app
+mkdir test && cd test
+cmake ../../test -DCMAKE_VERBOSE_MAKEFILE=ON
 make
 ```
