@@ -1,5 +1,5 @@
 
-#include "videoaccel.hpp"
+#include "accel.hpp"
 
 int main (int argc, char** argv)
 {

@@ -1,4 +1,4 @@
-#include "videoaccel.hpp"
+#include "accel.hpp"
 
 VideoAccel::VideoAccel(const char* inf, const char* outf, const char* type) :
     infile_(inf),

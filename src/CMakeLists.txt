@@ -4,8 +4,8 @@ project(vadec)
 
 set (SOURCES_ 
     test.cpp 
-    videoaccel.cpp 
-    videoaccel.hpp 
+    accel.cpp 
+    accel.hpp 
     frame.cpp 
     frame.hpp 
 )
