@@ -4,6 +4,8 @@
         "*.tcc": "cpp",
         "fstream": "cpp",
         "imgutils.h": "c",
-        "hwcontext.h": "c"
+        "hwcontext.h": "c",
+        "array": "cpp",
+        "string_view": "cpp"
     }
 }
