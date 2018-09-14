@@ -10,11 +10,11 @@ extern "C" {
 #include <libavutil/imgutils.h>
 }
 
-class VideoAccel
+class VAccel
 {
 public:
-    VideoAccel(const char* inf, const char* outf="out.yuv", const char* type="vaapi");
-    ~VideoAccel();
+    VAccel(const char* inf, const char* outf="out.yuv", const char* type="vaapi");
+    ~VAccel();
 
     int init();
 

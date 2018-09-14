@@ -10,8 +10,6 @@ set (SOURCES_
     frame.hpp 
 )
 
-MESSAGE( "SOURCES_ = " ${SOURCES_} )
-
 set (CMAKE_CXX_STANDARD 11)
 
 include_directories (vadec /usr/local/include)

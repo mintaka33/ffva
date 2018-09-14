@@ -14,11 +14,11 @@ int main (int argc, char** argv)
         return -1;
     }
 
-    VideoAccel accel(infile);
+    VAccel accel(infile);
 
     if(accel.init() != 0)
     {
-        printf("VideoAccel init failed!\n");
+        printf("VAccel init failed!\n");
         return -1;
     }
 

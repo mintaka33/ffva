@@ -1,17 +1,17 @@
 #include "accel.hpp"
 
-VideoAccel::VideoAccel(const char* inf, const char* outf, const char* type) :
+VAccel::VAccel(const char* inf, const char* outf, const char* type) :
     infile_(inf),
     outfile_(outf),
     vatype_(type)
 {
 }
 
-VideoAccel::~VideoAccel()
+VAccel::~VAccel()
 {
 }
 
-int VideoAccel::init()
+int VAccel::init()
 {
     enum AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
 

@@ -6,6 +6,14 @@
         "imgutils.h": "c",
         "hwcontext.h": "c",
         "array": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
     }
 }
