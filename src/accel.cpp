@@ -94,3 +94,78 @@ int VAccel::getFrame()
 {
     return 0;
 }
+
+int VAccel::decode()
+{
+    AVFrame *frame = nullptr, *sw_frame = nullptr;
+    AVFrame *tmp_frame = nullptr;
+    uint8_t *buffer = nullptr;
+    int size;
+    int ret = 0;
+
+    if (av_read_frame(inputCtx_, &packet_) < 0)
+        return -1;
+
+    if (stream_ != packet_.stream_index)
+        return -1;
+
+    ret = avcodec_send_packet(decoderCtx_, &packet_);
+    if (ret < 0) {
+        fprintf(stderr, "Error during decoding\n");
+        return ret;
+    }
+
+    while (1) {
+        if (!(frame = av_frame_alloc()) || !(sw_frame = av_frame_alloc())) {
+            fprintf(stderr, "Can not alloc frame\n");
+            ret = AVERROR(ENOMEM);
+            goto fail;
+        }
+
+        ret = avcodec_receive_frame(decoderCtx_, frame);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            av_frame_free(&frame);
+            av_frame_free(&sw_frame);
+            return 0;
+        } else if (ret < 0) {
+            fprintf(stderr, "Error while decoding\n");
+            goto fail;
+        }
+
+        if (frame->format == hwPixFmt) {
+            /* retrieve data from GPU to CPU */
+            if ((ret = av_hwframe_transfer_data(sw_frame, frame, 0)) < 0) {
+                fprintf(stderr, "Error transferring the data to system memory\n");
+                goto fail;
+            }
+            tmp_frame = sw_frame;
+        } else
+            tmp_frame = frame;
+
+        size = av_image_get_buffer_size((AVPixelFormat)tmp_frame->format, tmp_frame->width,
+                                        tmp_frame->height, 1);
+        buffer = (uint8_t*)av_malloc(size);
+        if (!buffer) {
+            fprintf(stderr, "Can not alloc buffer\n");
+            ret = AVERROR(ENOMEM);
+            goto fail;
+        }
+        ret = av_image_copy_to_buffer(buffer, size,
+                                      (const uint8_t * const *)tmp_frame->data,
+                                      (const int *)tmp_frame->linesize, (AVPixelFormat)tmp_frame->format,
+                                      tmp_frame->width, tmp_frame->height, 1);
+        if (ret < 0) {
+            fprintf(stderr, "Can not copy image to buffer\n");
+            goto fail;
+        }
+
+    fail:
+        av_frame_free(&frame);
+        av_frame_free(&sw_frame);
+        av_freep(&buffer);
+        if (ret < 0)
+            return ret;
+    }
+
+    return 0;
+}

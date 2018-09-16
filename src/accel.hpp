@@ -18,6 +18,8 @@ public:
 
     int init();
     int getFrame();
+private:
+    int decode();
 
 private:
     const char* vatype_;
@@ -28,6 +30,7 @@ private:
     AVCodecContext *decoderCtx_ = nullptr;
     AVStream *video_ = nullptr;
     AVCodec *decoder_ = nullptr;
+    AVPacket packet_ = {};
     int stream_ = -1;
 };
 
