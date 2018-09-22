@@ -10,6 +10,8 @@ extern "C" {
 #include <libavutil/imgutils.h>
 }
 
+#include "frame.hpp"
+
 class VAccel
 {
 public:
@@ -17,9 +19,9 @@ public:
     ~VAccel();
 
     int init();
-    int getFrame();
+    int getFrame(VFrame* f);
 private:
-    int decode();
+    int decode(VFrame* f);
 
 private:
     const char* vatype_;

@@ -90,12 +90,16 @@ int VAccel::init()
     return 0;
 }
 
-int VAccel::getFrame()
+int VAccel::getFrame(VFrame* f)
 {
-    return 0;
+    int ret = 0;
+
+    ret = decode(f);
+
+    return ret;
 }
 
-int VAccel::decode()
+int VAccel::decode(VFrame* f)
 {
     AVFrame *frame = nullptr, *sw_frame = nullptr;
     AVFrame *tmp_frame = nullptr;
@@ -144,12 +148,12 @@ int VAccel::decode()
 
         size = av_image_get_buffer_size((AVPixelFormat)tmp_frame->format, tmp_frame->width,
                                         tmp_frame->height, 1);
-        buffer = (uint8_t*)av_malloc(size);
-        if (!buffer) {
-            fprintf(stderr, "Can not alloc buffer\n");
-            ret = AVERROR(ENOMEM);
-            goto fail;
+        
+        if (!f->getBuf()) {
+            f->allocate(tmp_frame->width, tmp_frame->height);
+            buffer = f->getBuf();
         }
+
         ret = av_image_copy_to_buffer(buffer, size,
                                       (const uint8_t * const *)tmp_frame->data,
                                       (const int *)tmp_frame->linesize, (AVPixelFormat)tmp_frame->format,
@@ -162,7 +166,6 @@ int VAccel::decode()
     fail:
         av_frame_free(&frame);
         av_frame_free(&sw_frame);
-        av_freep(&buffer);
         if (ret < 0)
             return ret;
     }
