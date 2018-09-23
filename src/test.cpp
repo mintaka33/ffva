@@ -24,11 +24,7 @@ int main (int argc, char** argv)
     }
 
     VFrame vf;
-    for (int i=0; i<50; i++) {
-        if(accel.getFrame(&vf) != 0) {
-            printf("VAccel init failed!\n");
-            return -1;
-        }
+    while (!accel.getFrame(&vf)) {
         vf.saveFile();
     }
 
