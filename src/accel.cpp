@@ -93,22 +93,37 @@ int VAccel::init()
 int VAccel::getFrame(VFrame* f)
 {
     int ret = 0;
+    bool received = false;
 
-    ret = decode(f);
+    while (1) {
+        if (read() < 0) {
+            packet_.data = nullptr;
+            packet_.size = 0;
+        }
+
+        ret = decode(f);
+        if (ret < 0)
+            break;
+
+        ret = receive(f, &received);
+        if (ret < 0 || received)
+            break;
+    }
 
     return ret;
 }
 
-int VAccel::decode(VFrame* f)
+int VAccel::read()
 {
-    AVFrame *frame = nullptr, *sw_frame = nullptr;
-    AVFrame *tmp_frame = nullptr;
-    uint8_t *buffer = nullptr;
-    int size;
-    int ret = 0;
-
     if (av_read_frame(inputCtx_, &packet_) < 0)
         return -1;
+
+    return 0;
+}
+
+int VAccel::decode(VFrame* f)
+{
+    int ret = 0;
 
     if (stream_ != packet_.stream_index)
         return -1;
@@ -118,6 +133,17 @@ int VAccel::decode(VFrame* f)
         fprintf(stderr, "Error during decoding\n");
         return ret;
     }
+
+    return 0;
+}
+
+int VAccel::receive(VFrame* f, bool* done)
+{
+    int ret = 0;
+    int size = 0;
+    AVFrame *frame = nullptr, *sw_frame = nullptr;
+    AVFrame *tmp_frame = nullptr;
+    uint8_t *buffer = nullptr;
 
     while (1) {
         if (!(frame = av_frame_alloc()) || !(sw_frame = av_frame_alloc())) {
@@ -136,6 +162,7 @@ int VAccel::decode(VFrame* f)
             goto fail;
         }
 
+        *done = true;
         if (frame->format == hwPixFmt) {
             /* retrieve data from GPU to CPU */
             if ((ret = av_hwframe_transfer_data(sw_frame, frame, 0)) < 0) {
@@ -151,8 +178,8 @@ int VAccel::decode(VFrame* f)
         
         if (!f->getBuf()) {
             f->allocate(tmp_frame->width, tmp_frame->height);
-            buffer = f->getBuf();
         }
+        buffer = f->getBuf();
 
         ret = av_image_copy_to_buffer(buffer, size,
                                       (const uint8_t * const *)tmp_frame->data,

@@ -21,7 +21,9 @@ public:
     int init();
     int getFrame(VFrame* f);
 private:
+    int read();
     int decode(VFrame* f);
+    int receive(VFrame* f, bool* done);
 
 private:
     const char* vatype_;
