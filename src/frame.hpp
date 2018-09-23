@@ -13,12 +13,8 @@ public:
     int32_t getWidth() { return width_; }
     int32_t getHeight() { return height_; }
 
-    void allocate(int32_t width, int32_t height) {
-        width_ = width;
-        height_ = height;
-        size_ = width * height * 3 / 2;
-        buffer_ = new uint8_t[size_];
-    }
+    void allocate(int32_t width, int32_t height);
+    void saveFile();
 
 private:
     uint8_t *buffer_ = nullptr;
