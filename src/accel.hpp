@@ -23,7 +23,7 @@ public:
 private:
     int read();
     int decode(VFrame* f);
-    int receive(VFrame* f, bool* done);
+    int receive(VFrame* f, bool bFlush, bool* done);
 
 private:
     const char* vatype_;
@@ -36,5 +36,6 @@ private:
     AVCodec *decoder_ = nullptr;
     AVPacket packet_ = {};
     int stream_ = -1;
+    bool flush_ = false;
 };
 

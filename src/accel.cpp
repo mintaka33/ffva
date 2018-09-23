@@ -95,22 +95,29 @@ int VAccel::getFrame(VFrame* f)
     int ret = 0;
     bool received = false;
 
-    while (1) {
+    while (!flush_) {
         if (read() < 0) {
             packet_.data = nullptr;
             packet_.size = 0;
+            ret = decode(f);
+            flush_ = true;
+            break;
         }
 
         ret = decode(f);
         if (ret < 0)
-            break;
+            return ret;
 
-        ret = receive(f, &received);
+        ret = receive(f, false, &received);
         if (ret < 0 || received)
-            break;
+            return ret;
     }
 
-    return ret;
+    while (flush_) {
+        ret = receive(f, true, &received);
+        if (ret < 0 || received)
+            return ret;
+    }
 }
 
 int VAccel::read()
@@ -137,7 +144,7 @@ int VAccel::decode(VFrame* f)
     return 0;
 }
 
-int VAccel::receive(VFrame* f, bool* done)
+int VAccel::receive(VFrame* f, bool bFlush, bool* done)
 {
     int ret = 0;
     int size = 0;
@@ -195,6 +202,8 @@ int VAccel::receive(VFrame* f, bool* done)
         av_frame_free(&sw_frame);
         if (ret < 0)
             return ret;
+        if (bFlush)
+            return 0;
     }
 
     return 0;
