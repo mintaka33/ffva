@@ -18,6 +18,7 @@ public:
 
 private:
     uint8_t *buffer_ = nullptr;
+    bool firstWrite_ = true;
     int32_t size_ = 0;
     int32_t width_ = 0;
     int32_t height_ = 0;

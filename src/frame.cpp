@@ -26,7 +26,12 @@ void VFrame::saveFile()
 {
     if (buffer_ && size_ > 0){
         std::ofstream f;
-        f.open("out.yuv", std::ios::binary | std::ios::app);
+        if (firstWrite_) {
+            f.open("out.yuv", std::ios::binary);
+            firstWrite_ = false;
+        } else {
+            f.open("out.yuv", std::ios::binary | std::ios::app);
+        }
         if (f.is_open()) {
             f.write((const char*)buffer_, size_);
             f.flush();
