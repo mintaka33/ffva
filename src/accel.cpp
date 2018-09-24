@@ -163,7 +163,7 @@ int VAccel::receive(VFrame* f, bool bFlush, bool* done)
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
             av_frame_free(&frame);
             av_frame_free(&sw_frame);
-            return 0;
+            return (ret == AVERROR_EOF) ? ret : 0;
         } else if (ret < 0) {
             fprintf(stderr, "Error while decoding\n");
             goto fail;
