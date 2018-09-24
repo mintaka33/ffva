@@ -94,17 +94,18 @@ int VAccel::getFrame(VFrame* f)
 {
     int ret = 0;
     bool received = false;
+    AVPacket packet = {};
 
     while (!flush_) {
-        if (read() < 0) {
-            packet_.data = nullptr;
-            packet_.size = 0;
-            ret = decode(f);
+        if (read(&packet) < 0) {
+            packet.data = nullptr;
+            packet.size = 0;
+            ret = decode(&packet);
             flush_ = true;
             break;
         }
 
-        ret = decode(f);
+        ret = decode(&packet);
         if (ret < 0)
             return ret;
 
@@ -120,22 +121,22 @@ int VAccel::getFrame(VFrame* f)
     }
 }
 
-int VAccel::read()
+int VAccel::read(AVPacket* packet)
 {
-    if (av_read_frame(inputCtx_, &packet_) < 0)
+    if (av_read_frame(inputCtx_, packet) < 0)
         return -1;
 
     return 0;
 }
 
-int VAccel::decode(VFrame* f)
+int VAccel::decode(AVPacket* packet)
 {
     int ret = 0;
 
-    if (stream_ != packet_.stream_index)
+    if (stream_ != packet->stream_index)
         return -1;
 
-    ret = avcodec_send_packet(decoderCtx_, &packet_);
+    ret = avcodec_send_packet(decoderCtx_, packet);
     if (ret < 0) {
         fprintf(stderr, "Error during decoding\n");
         return ret;

@@ -21,8 +21,8 @@ public:
     int init();
     int getFrame(VFrame* f);
 private:
-    int read();
-    int decode(VFrame* f);
+    int read(AVPacket* packet);
+    int decode(AVPacket* packet);
     int receive(VFrame* f, bool bFlush, bool* done);
 
 private:
@@ -34,7 +34,6 @@ private:
     AVCodecContext *decoderCtx_ = nullptr;
     AVStream *video_ = nullptr;
     AVCodec *decoder_ = nullptr;
-    AVPacket packet_ = {};
     int stream_ = -1;
     bool flush_ = false;
 };
