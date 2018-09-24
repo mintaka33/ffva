@@ -101,11 +101,13 @@ int VAccel::getFrame(VFrame* f)
             packet.data = nullptr;
             packet.size = 0;
             ret = decode(&packet);
+            av_packet_unref(&packet);
             flush_ = true;
             break;
         }
 
         ret = decode(&packet);
+        av_packet_unref(&packet);
         if (ret < 0)
             return ret;
 
