@@ -34,6 +34,7 @@ private:
     AVCodecContext *decoderCtx_ = nullptr;
     AVStream *video_ = nullptr;
     AVCodec *decoder_ = nullptr;
+    int frameIdx_ = 0;
     int stream_ = -1;
     bool flush_ = false;
 };

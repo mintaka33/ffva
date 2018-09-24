@@ -34,21 +34,18 @@ int VAccel::init()
     if (type == AV_HWDEVICE_TYPE_NONE)
         return -1;
 
-    if ( avformat_open_input(&inputCtx_, infile_, nullptr, nullptr) != 0) 
-    {
+    if ( avformat_open_input(&inputCtx_, infile_, nullptr, nullptr) != 0) {
         fprintf(stderr, "Cannot open input file %s\n", infile_);
         return -1;
     }
 
-    if (avformat_find_stream_info(inputCtx_, NULL) < 0) 
-    {
+    if (avformat_find_stream_info(inputCtx_, NULL) < 0) {
         fprintf(stderr, "Cannot find input stream information.\n");
         return -1;
     }
 
     stream_ = av_find_best_stream(inputCtx_, AVMEDIA_TYPE_VIDEO, -1, -1, &decoder_, 0);
-    if (stream_ < 0) 
-    {
+    if (stream_ < 0) {
         fprintf(stderr, "Cannot find a video stream in the input file\n");
         return -1;
     }
@@ -95,7 +92,8 @@ int VAccel::getFrame(VFrame* f)
     int ret = 0;
     bool received = false;
     AVPacket packet = {};
-
+    
+    frameIdx_++;
     while (!flush_) {
         if (read(&packet) < 0) {
             packet.data = nullptr;
@@ -206,7 +204,7 @@ int VAccel::receive(VFrame* f, bool bFlush, bool* done)
         if (ret < 0)
             return ret;
         if (bFlush)
-            return 0;
+            break;
     }
 
     return 0;
