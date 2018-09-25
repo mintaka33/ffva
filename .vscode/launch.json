@@ -152,6 +152,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/ffmpeg/ffmpeg_g",
             "args": [
+                "-loglevel",
+                "99",
                 "-y",
                 "-hwaccel",
                 "vaapi",
