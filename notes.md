@@ -7,6 +7,9 @@ https://trac.ffmpeg.org/wiki/Hardware/VAAPI
 
 ## build ffmpeg example
 ```bash
+sudo apt install libx264-dev
+sudo apt install libx265-dev
+
 cd build/ffmpeg
 ../../FFmpeg/configure --enable-debug=3 --disable-optimizations --enable-libx264 --enable-libx265 --enable-gpl
 make -j4
